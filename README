@@ -1,0 +1,16 @@
+== A prettier HTML output designed for Textmate
+
+Enhanced with javascript taken from rspec
+Tested with {Cucumber}[http://github.com/aslakhellesoy/cucumber/tree] 0.3.6 and {Textmate}[http://macromates.com] 1.5.8.
+== Install
+
+Just copy <tt>textmate_formatter.rb</tt> and <tt>cucumber-textmate.css</tt> to <tt>features/support/</tt>
+
+Then add <tt>-f TextmateFormatter</tt> to your cucumber tmbundle. 
+
+== Notes
+
+A lot of code taken from rspec and cucumber to make this so thanks to all involved.
+A little messy at the moment so needs some love to tidy it up.
+
+raldred [at] gmail.com
