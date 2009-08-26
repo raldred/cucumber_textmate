@@ -266,15 +266,21 @@ class TextmateFormatter < Cucumber::Ast::Visitor
     def build_exception_detail(exception)
       backtrace = Array.new
       @builder.div(:class => 'message') do
-        @builder.pre(exception.message)
+        message = exception.message
+        if message.include?('Exception caught')
+          matches = message.match(/Showing <i>(.+)<\/i>(?:.+)#(\d+)/)
+          backtrace += ["#{RAILS_ROOT}/#{matches[1]}:#{matches[2]}"]
+          message = message.match(/<code>([^(\/)]+)<\//m)[1]
+        end
+        @builder << "<pre>#{message}</pre>"
       end
       @builder.div(:class => 'backtrace') do
         @builder.pre do
-          backtrace = exception.backtrace.size == 1 ? ["#{RAILS_ROOT}/#{@step_match.file_colon_line}"] + exception.backtrace : exception.backtrace
+          backtrace += exception.backtrace.size == 1 ? ["#{RAILS_ROOT}/#{@step_match.file_colon_line}"] + exception.backtrace : exception.backtrace
           @builder << backtrace_line(backtrace.join("\n"))
         end
       end
-      extra = extra_failure_content(backtrace[0])
+      extra = extra_failure_content(backtrace)
       @builder << extra unless extra == ""
     end
     
@@ -396,7 +402,7 @@ EOF
     end
     
     def backtrace_line(line)
-      line.gsub(/([^:]*\.(?:rb|feature)):(\d*)/) do
+      line.gsub(/([^:]*\.(?:rb|feature|haml)):(\d*)/) do
         "<a href=\"txmt://open?url=file://#{File.expand_path($1)}&line=#{$2}\">#{$1}:#{$2}</a> "
       end
     end
@@ -435,7 +441,7 @@ class SnippetExtractor #:nodoc:
   begin; require 'syntax/convertors/html'; @@converter = Syntax::Convertors::HTML.for_syntax "ruby"; rescue LoadError => e; @@converter = NullConverter.new; end
   
   def snippet(error)
-    raw_code, line = snippet_for(error)
+    raw_code, line = snippet_for(error[0])
     highlighted = @@converter.convert(raw_code, false)
     highlighted << "\n<span class=\"comment\"># gem install syntax to get syntax highlighting</span>" if @@converter.is_a?(NullConverter)
     post_process(highlighted, line)
@@ -447,6 +453,7 @@ class SnippetExtractor #:nodoc:
       line = $2.to_i
       [lines_around(file, line), line]
     else
+      return snippet_for()
       ["# Couldn't get snippet for #{error_line}", 1]
     end
   end
