@@ -241,11 +241,11 @@ class TextmateFormatter < Cucumber::Ast::Visitor
           end
         end
       end
-      if @outline_row > 0
-        @step_number += 1
-        move_progress
+      if @outline_row
+        @outline_row += 1
       end
-      @outline_row += 1 if @outline_row
+      @step_number += 1
+      move_progress
     end
 
     def visit_table_cell_value(value, status)
@@ -312,9 +312,11 @@ class TextmateFormatter < Cucumber::Ast::Visitor
           
           #get example table
           examples = scenario.instance_variable_get("@examples_array")
-          examples.each do |example|
-            example_matrix = example.instance_variable_get("@outline_table").instance_variable_get("@cell_matrix")
-            count += (example_matrix.size - 1)
+          unless examples.blank?
+            examples.each do |example|
+              example_matrix = example.instance_variable_get("@outline_table").instance_variable_get("@cell_matrix")
+              count += example_matrix.size
+            end
           end
           
           #get multiline step tables
@@ -322,7 +324,7 @@ class TextmateFormatter < Cucumber::Ast::Visitor
             multi_arg = step.instance_variable_get("@multiline_arg")
             next if multi_arg.nil?
             matrix = multi_arg.instance_variable_get("@cell_matrix")
-            count += matrix.size - matrix.first.size
+            count += matrix.size
           end
         end
       end
