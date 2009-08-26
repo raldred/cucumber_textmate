@@ -276,7 +276,7 @@ class TextmateFormatter < Cucumber::Ast::Visitor
       end
       @builder.div(:class => 'backtrace') do
         @builder.pre do
-          backtrace += exception.backtrace.size == 1 ? ["#{RAILS_ROOT}/#{@step_match.file_colon_line}"] + exception.backtrace : exception.backtrace
+          backtrace += (exception.backtrace.size == 1 || exception.backtrace[0].include?('(eval):')) ? ["#{RAILS_ROOT}/#{@step_match.file_colon_line}"] + exception.backtrace : exception.backtrace
           @builder << backtrace_line(backtrace.join("\n"))
         end
       end
