@@ -1,7 +1,7 @@
 == A prettier HTML output designed for Textmate
 
 Enhanced with javascript taken from rspec
-Tested with {Cucumber}[http://github.com/aslakhellesoy/cucumber/tree] 0.3.6 and {Textmate}[http://macromates.com] 1.5.8.
+Tested with {Cucumber}[http://github.com/aslakhellesoy/cucumber/tree] 0.3.95 and {Textmate}[http://macromates.com] 1.5.8.
 == Install
 
 Just copy <tt>textmate_formatter.rb</tt> and <tt>cucumber-textmate.css</tt> to <tt>features/support/</tt>
