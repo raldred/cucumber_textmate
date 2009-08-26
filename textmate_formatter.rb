@@ -352,13 +352,13 @@ class TextmateFormatter < Cucumber::Ast::Visitor
 
     def inline_css
       @builder.style(:type => 'text/css') do
-        @builder.text!(File.read(File.dirname(__FILE__) + '/cucumber-textmate.css'))
+        @builder << File.read(File.dirname(__FILE__) + '/cucumber-textmate.css')
       end
     end
     
     def inline_js
       @builder.script(:type => 'text/javascript') do
-        @builder.text!(inline_js_content)
+        @builder << inline_js_content
       end
     end
     
