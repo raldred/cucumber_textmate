@@ -6,7 +6,7 @@ Tested with {Cucumber}[http://github.com/aslakhellesoy/cucumber/tree] 0.3.95 and
 
 Just copy <tt>textmate_formatter.rb</tt> and <tt>cucumber-textmate.css</tt> to <tt>features/support/</tt>
 
-Then add <tt>-f TextmateFormatter</tt> to your cucumber tmbundle. 
+Then add <tt>-f TextmateFormatter</tt> to your cucumber tmbundle or TM_CUCUMBER_OPTS variable
 
 == Notes
 
