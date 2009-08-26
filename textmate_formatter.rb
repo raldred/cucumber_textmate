@@ -39,6 +39,7 @@ class TextmateFormatter < Cucumber::Ast::Visitor
           inline_js
         end
         @builder.body do
+          @builder << "<!-- Step count #{@step_count}-->"
           @builder.div(:class => 'cucumber') do
             @builder.div(:id => 'cucumber-header') do
               @builder.div(:id => 'label') do
@@ -240,6 +241,10 @@ class TextmateFormatter < Cucumber::Ast::Visitor
           end
         end
       end
+      if @outline_row > 0
+        @step_number += 1
+        move_progress
+      end
       @outline_row += 1 if @outline_row
     end
 
@@ -294,11 +299,24 @@ class TextmateFormatter < Cucumber::Ast::Visitor
       count = 0
       features = features.instance_variable_get("@features")
       features.each do |feature|
+        #get background steps
+        if feature.instance_variable_get("@background")
+          background = feature.instance_variable_get("@background").instance_variable_get("@steps").instance_variable_get("@steps")
+          count += background.size
+        end
         #get scenarios
         feature.instance_variable_get("@feature_elements").each do |scenario|
           #get steps
           steps = scenario.instance_variable_get("@steps").instance_variable_get("@steps")
           count += steps.size
+          
+          #get example table
+          examples = scenario.instance_variable_get("@examples_array")
+          examples.each do |example|
+            example_matrix = example.instance_variable_get("@outline_table").instance_variable_get("@cell_matrix")
+            count += (example_matrix.size - 1)
+          end
+          
           #get multiline step tables
           steps.each do |step|
             multi_arg = step.instance_variable_get("@multiline_arg")
