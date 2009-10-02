@@ -77,6 +77,11 @@ div.examples {
 .cucumber table {
   border-collapse: collapse;
 }
+
+.cucumber .outline table {
+ margin:0px 0px 5px 5px; 
+}
+
 .cucumber table td, .cucumber table th {
   border: 1px solid #AAAAAA;
   color:#000;
@@ -104,6 +109,8 @@ div.examples {
   color: #001111;
 }
 .cucumber table th.skipped_param {
+  border-left: 5px solid #00ffff;
+  border-bottom: 1px solid #00ffff;
   font-weight:bold;
   background: #e0ffff;
   color: #001111;
