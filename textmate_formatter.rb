@@ -154,7 +154,7 @@ class TextmateFormatter
     end
   end
 
-  def visit_exception(exception, status)
+  def exception(exception, status)
     build_exception_detail(exception)
   end
 
@@ -178,30 +178,10 @@ class TextmateFormatter
     end
   end
 
-  def visit_py_string(string)
+  def py_string(string)
     @builder.pre(:class => 'val') do |pre|
       @builder << string.gsub("\n", '&#x000A;')
     end
-  end
-
-  def visit_table_row(table_row)
-    @row_id = table_row.dom_id
-    @col_index = 0
-    @builder.tr(:class => 'step') do
-      super
-    end
-    if table_row.exception
-      @builder.tr do
-        @builder.td(:colspan => @col_index.to_s,:class => 'step failed') do
-          build_exception_detail(table_row.exception)
-        end
-      end
-    end
-    if @outline_row
-      @outline_row += 1
-    end
-    @step_number += 1
-    move_progress
   end
   
   
