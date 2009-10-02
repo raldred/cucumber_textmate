@@ -67,6 +67,62 @@ class TextmateFormatter
   def after_feature(feature)
     @builder << '</div>'
   end
+  
+  def before_comment(comment)
+    @builder << '<pre class="comment">'
+  end
+
+  def after_comment(comment)
+    @builder << '</pre>'
+  end
+  
+  def comment_line(comment_line)
+    @builder.text!(comment_line)
+    @builder.br
+  end
+  
+  def after_tags(tags)
+    @tag_spacer = nil
+  end
+  
+  def tag_name(tag_name)
+    @builder.text!(@tag_spacer) if @tag_spacer
+    @tag_spacer = ' '
+    @builder.span(tag_name, :class => 'tag')
+  end
+  
+  def feature_name(name)
+    lines = name.split(/\r?\n/)
+    return if lines.empty?
+    @builder.h2 do |h2|
+      @builder.span(lines[0], :class => 'val')
+    end
+    @builder.p(:class => 'narrative') do
+      lines[1..-1].each do |line|
+        @builder.text!(line.strip)
+        @builder.br
+      end
+    end
+  end
+  
+  def before_background(background)
+    @in_background = true
+    @builder << '<div class="background">'
+  end
+  
+  def after_background(background)
+    @in_background = nil
+    @builder << '</div>'
+  end
+  
+  def background_name(keyword, name, file_colon_line, source_indent)
+    @listing_background = true
+    @builder.h3 do |h3|
+      @builder.span(keyword, :class => 'keyword')
+      @builder.text!(' ')
+      @builder.span(name, :class => 'val')
+    end
+  end
 
   def before_feature_element(feature_element)
     @scenario_number+=1
@@ -293,7 +349,7 @@ class TextmateFormatter
             multi_arg = step.instance_variable_get("@multiline_arg")
             next if multi_arg.nil?
             matrix = multi_arg.instance_variable_get("@cell_matrix")
-            count += matrix.size
+            count += matrix.size unless matrix.blank?
           end
         end
       end
