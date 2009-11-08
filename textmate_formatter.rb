@@ -164,7 +164,6 @@ class TextmateFormatter
   end
 
   def before_multiline_arg(multiline_arg)
-    debugger
     return if @hide_this_step || @skip_step
     if Cucumber::Ast::Table === multiline_arg
       @builder << '<table>'
