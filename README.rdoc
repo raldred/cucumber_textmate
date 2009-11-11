@@ -1,16 +1,21 @@
 == A prettier HTML output designed for Textmate
 
 Enhanced with javascript taken from rspec
-Tested with {Cucumber}[http://github.com/aslakhellesoy/cucumber/tree] 0.3.95 and {Textmate}[http://macromates.com] 1.5.8.
+Tested with {Cucumber}[http://github.com/aslakhellesoy/cucumber/tree] 0.3.104 and {Textmate}[http://macromates.com] 1.5.9 along with {Ben Mabey's Textmate bundle}[http://github.com/bmabey/cucumber-tmbundle].
 == Install
 
 Just copy <tt>textmate_formatter.rb</tt> and <tt>cucumber-textmate.css</tt> to <tt>features/support/</tt>
-
 Then add <tt>-f TextmateFormatter</tt> to your cucumber tmbundle or TM_CUCUMBER_OPTS variable
+
+To enable accurate backtrace/snippets, also add <tt>-b</tt> to your cucumber tmbundle or TM_CUCUMBER_OPTS variable
 
 == Notes
 
 A lot of code taken from rspec and cucumber to make this so thanks to all involved.
 A little messy at the moment so needs some love to tidy it up.
+Specs are working in progress, the wrong way round I know but this was only ever meant to be a cheap quick alternative to the standard html formatter
 
+Any commits welcome, and thanks to those who have already contributed.
+
+Rob
 raldred [at] gmail.com
