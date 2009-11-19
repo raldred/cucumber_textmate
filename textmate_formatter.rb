@@ -338,7 +338,7 @@ class TextmateFormatter
 
           #get example table
           examples = scenario.instance_variable_get("@examples_array")
-          unless examples.blank?
+          unless examples.nil?
             examples.each do |example|
               example_matrix = example.instance_variable_get("@outline_table").instance_variable_get("@cell_matrix")
               count += example_matrix.size
@@ -350,7 +350,7 @@ class TextmateFormatter
             multi_arg = step.instance_variable_get("@multiline_arg")
             next if multi_arg.nil?
             matrix = multi_arg.instance_variable_get("@cell_matrix")
-            count += matrix.size unless matrix.blank?
+            count += matrix.size unless matrix.nil?
           end
         end
       end
