@@ -1,3 +1,5 @@
+*NOTE: I have been working rebuilding this formatter into the cucumber master to replace the existing HTML formatter, my changes have been merged so hopefully it will be available in the next release of cucumber.*
+
 == A prettier HTML output designed for Textmate
 
 Enhanced with javascript taken from rspec
